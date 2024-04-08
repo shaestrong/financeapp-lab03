@@ -4,6 +4,21 @@ import { NavigationContainer } from '@react-navigation/native';
 import TransactionsNavigator from './TransactionsScreen/TransactionsNavigator';
 import Summary from './SummaryScreen/Summary';
 import Ionicons from '@expo/vector-icons/Ionicons';
+import * as firebase from 'firebase/app';
+import 'firebase/database';
+
+// Firebase configuration
+const firebaseConfig = {
+  apiKey: "AIzaSyAxnuggEwhoeiErOuamUCkul93fQKghhzo",
+  authDomain: "info6132-lab04.firebaseapp.com",
+  projectId: "info6132-lab04",
+  storageBucket: "info6132-lab04.appspot.com",
+  messagingSenderId: "165778071699",
+  appId: "1:165778071699:web:b8aa3daee8184d3e142d66"
+};
+
+// Initialize Firebase
+firebase.initializeApp(firebaseConfig);
 
 const Tab = createBottomTabNavigator();
 

@@ -1,19 +1,25 @@
 import React from 'react';
 import { View, Text, TouchableOpacity, FlatList, StyleSheet } from 'react-native';
 import { MaterialIcons } from '@expo/vector-icons';
+import * as firebase from 'firebase/app';
+import 'firebase/database';
 
 export default function TransactionsList({ navigation }) {
-  // Data for transactions
- const transactions = [
-    { id: 1, name: 'Aritzia', amount: 276.89, location: 'London Ontario', date: 'March 22, 2024' },
-    { id: 2, name: 'Subway', amount: 14.34, location: 'London Ontario', date: 'March 22, 2024' },
-    { id: 3, name: 'GoodLife Clubs', amount: 148.26, location: 'London Ontario', date: 'March 14, 2024' },
-    { id: 4, name: 'Petro Canada', amount: 80.93, location: 'London Ontario', date: 'March 12, 2024' },
-    { id: 5, name: 'McDonalds', amount: 24.12, location: 'London Ontario', date: 'March 10, 2024' },
-    { id: 6, name: 'Lululemon', amount: 379.23, location: 'London Ontario', date: 'March 10, 2024' },
-  ];
+  const [transactions, setTransactions] = React.useState([]);
 
-  // Function to render each item in the list
+  // Load transactions from Firebase on component mount
+  React.useEffect(() => {
+    const database = firebase.database();
+    const transactionsRef = database.ref('transactions');
+    transactionsRef.once('value', (snapshot) => {
+      const data = snapshot.val();
+      if (data) {
+        const transactionsArray = Object.values(data);
+        setTransactions(transactionsArray);
+      }
+    });
+  }, []);
+
   const renderItem = ({ item }) => (
     <TouchableOpacity
       style={styles.transactionItem}
